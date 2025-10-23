@@ -1,0 +1,246 @@
+REDSM5 AUGMENTATION CACHE AND HPO PIPELINE - FILE MANIFEST
+Generated: 2025-10-23
+================================================================================
+
+PROJECT ROOT: /experiment/YuNing/DataAugmentation_ReDSM5
+
+================================================================================
+CONFIGURATION FILES (2)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/configs/run.yaml
+  - Main configuration file
+  - Dataset settings, combination rules, I/O settings, HPO parameters
+  - Global seed: 13
+
+/experiment/YuNing/DataAugmentation_ReDSM5/configs/augmenters_28.yaml
+  - Registry of 28 augmentation methods
+  - Character-level (6), Word-level (5), Contextual (4), Back-translation (5), Formatting (8)
+  - Default parameters and tunable parameter spaces
+
+================================================================================
+SOURCE CODE - DATA I/O MODULE (3)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/dataio/__init__.py
+  - Module initialization
+  - Exports: REDSM5Loader, ParquetIO
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/dataio/loader.py
+  - REDSM5Loader class
+  - Load from HuggingFace hub, CSV, or Parquet
+  - Validation and statistics
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/dataio/parquet_io.py
+  - ParquetIO utilities
+  - Compressed reading/writing with metadata
+  - Chunked I/O for memory efficiency
+
+================================================================================
+SOURCE CODE - AUGMENTATION MODULE (5)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/aug/__init__.py
+  - Module initialization
+  - Exports: AugmenterRegistry, AugmentationPipeline, ComboGenerator, SeedManager
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/aug/registry.py
+  - AugmenterRegistry class
+  - Manages 28 augmentation methods
+  - Instantiates augmenters from nlpaug/textattack
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/aug/compose.py
+  - AugmentationPipeline class
+  - Sequential augmentation with deterministic seeding
+  - DataFrame augmentation with progress tracking
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/aug/combos.py
+  - ComboGenerator class
+  - Enumerate valid combinations with constraints
+  - Save/load combinations to JSON
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/aug/seeds.py
+  - SeedManager class
+  - Hierarchical deterministic seeding
+  - Global → augmenter → example seed derivation
+
+================================================================================
+SOURCE CODE - HPO MODULE (3)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/hpo/__init__.py
+  - Module initialization
+  - Exports: HPOSearch, AugmentationTrainer
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/hpo/search.py
+  - HPOSearch class
+  - Unified interface for Optuna/Ray Tune
+  - Stage 1 (combo selection) and Stage 2 (hyperparameter tuning)
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/hpo/trainer.py
+  - AugmentationTrainer class
+  - Training loop with augmented data
+  - Early stopping, validation, metrics (F1, accuracy, precision, recall)
+
+================================================================================
+SOURCE CODE - UTILS MODULE (5)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/utils/__init__.py
+  - Module initialization
+  - Exports: hashing, logging, stats, estimate utilities
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/utils/hashing.py
+  - Deterministic hashing with xxhash
+  - Combo hash, text hash, cache filename utilities
+  - Cache integrity verification
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/utils/logging.py
+  - Logging utilities
+  - Setup logger with console/file output
+  - Helper functions for logging combos, HPO progress, metrics
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/utils/stats.py
+  - Dataset statistics computation
+  - Text statistics (length, word count)
+  - Diversity scores, edit distances
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/utils/estimate.py
+  - Cache size estimation
+  - HPO time estimation
+  - Human-readable size formatting
+
+================================================================================
+SOURCE CODE - MAIN MODULE (1)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/src/__init__.py
+  - Package initialization
+  - Version: 0.1.0
+
+================================================================================
+SCRIPTS (6 - all executable)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/prepare_redsm5.py
+  - STEP 1: Prepare REDSM5 dataset
+  - Load from hub/CSV/Parquet and save to base directory
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/list_combos.py
+  - STEP 2: Enumerate valid augmentation combinations
+  - Generate combinations up to k_max with constraints
+  - Save to JSON
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/generate_aug_cache.py
+  - STEP 3: Generate augmentation cache
+  - Pre-generate augmented data for all combinations
+  - Parallel processing with multiple workers
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/run_hpo_stage1.py
+  - STEP 4: Stage 1 HPO - Augmenter Selection
+  - Discrete search over augmentation combinations
+  - Uses cached augmented data
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/run_hpo_stage2.py
+  - STEP 5: Stage 2 HPO - Hyperparameter Tuning
+  - Fine-tune augmentation parameters and model hyperparameters
+  - Uses best combo from Stage 1
+
+/experiment/YuNing/DataAugmentation_ReDSM5/scripts/verify_setup.py
+  - Verify project setup
+  - Test imports, configs, registry, combos, seeding, hashing
+  - Returns 0 if all tests pass
+
+================================================================================
+TESTS (4)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/tests/__init__.py
+  - Test package initialization
+
+/experiment/YuNing/DataAugmentation_ReDSM5/tests/test_augmenters.py
+  - Test AugmenterRegistry
+  - Registry initialization, listing, config retrieval
+  - Stage and library distribution
+
+/experiment/YuNing/DataAugmentation_ReDSM5/tests/test_combos.py
+  - Test ComboGenerator
+  - Combination generation, exclusions, stage diversity
+  - Statistics computation
+
+/experiment/YuNing/DataAugmentation_ReDSM5/tests/test_determinism.py
+  - Test deterministic behavior
+  - Seed consistency and variation
+  - Hash consistency and sensitivity
+
+================================================================================
+DOCUMENTATION (6)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/README.md
+  - Comprehensive project documentation
+  - Overview, structure, installation, usage, features
+
+/experiment/YuNing/DataAugmentation_ReDSM5/PROJECT_STRUCTURE.md
+  - Detailed project structure
+  - Component descriptions, workflow, file naming conventions
+
+/experiment/YuNing/DataAugmentation_ReDSM5/SETUP_SUMMARY.md
+  - Setup verification summary
+  - What was created, verification results, next steps
+
+/experiment/YuNing/DataAugmentation_ReDSM5/QUICKSTART.md
+  - Quick start guide
+  - Installation, basic workflow, examples, troubleshooting
+
+/experiment/YuNing/DataAugmentation_ReDSM5/FILE_MANIFEST.txt
+  - This file
+  - Complete file listing with absolute paths
+
+/experiment/YuNing/DataAugmentation_ReDSM5/requirements.txt
+  - Python dependencies
+  - Core: nlpaug, textattack, torch, transformers, optuna, ray, pyarrow, xxhash
+
+================================================================================
+INSTALLATION FILES (2)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/setup.py
+  - Package installation script
+  - Console script entry points
+
+/experiment/YuNing/DataAugmentation_ReDSM5/requirements.txt
+  - Python dependencies (see above)
+
+================================================================================
+DATA DIRECTORIES (2)
+================================================================================
+
+/experiment/YuNing/DataAugmentation_ReDSM5/data/redsm5/base/
+  - Original train/val/test parquet files
+  - Created by prepare_redsm5.py
+
+/experiment/YuNing/DataAugmentation_ReDSM5/data/redsm5/combos/
+  - Cached augmented data
+  - Format: aug_{hash}_{split}.parquet
+  - Created by generate_aug_cache.py
+
+================================================================================
+SUMMARY
+================================================================================
+
+Total Files Created: 35+
+  - Configuration: 2
+  - Source Code: 17
+  - Scripts: 6
+  - Tests: 4
+  - Documentation: 6
+
+All files use absolute paths from:
+  /experiment/YuNing/DataAugmentation_ReDSM5/
+
+All scripts are executable (chmod +x applied)
+
+Verification Status: ✓ ALL TESTS PASSED
+
+================================================================================
