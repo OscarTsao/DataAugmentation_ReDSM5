@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
-from typing import List, Tuple
+from typing import Tuple
 
 import hydra
 import torch
@@ -339,7 +338,7 @@ def train_evidence_agent(
         start_accuracy = accuracy_score(val_start_labels, val_start_preds)
         start_f1 = f1_score(val_start_labels, val_start_preds, zero_division=0)
         end_accuracy = accuracy_score(val_end_labels, val_end_preds)
-        end_f1 = f1_score(val_end_labels, val_end_labels, zero_division=0)
+        end_f1 = f1_score(val_end_labels, val_end_preds, zero_division=0)
         
         token_accuracy = (start_accuracy + end_accuracy) / 2
         token_f1 = (start_f1 + end_f1) / 2

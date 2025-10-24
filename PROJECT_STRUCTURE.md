@@ -1,7 +1,11 @@
 # REDSM5 Augmentation Cache and HPO Pipeline - Project Structure
 
 ## Overview
-This document describes the complete project structure created for the REDSM5 augmentation cache and hyperparameter optimization pipeline.
+This document describes the complete project structure for the REDSM5 augmentation cache and hyperparameter optimization pipeline.
+
+**Note**: This file replaces the legacy `FILE_MANIFEST.txt` which has been removed. For a comprehensive overview of the project structure, see this document and `README.md`.
+
+**Last Updated**: 2025-10-24
 
 ## Directory Structure
 
@@ -183,6 +187,11 @@ pip install -e .
 # Or install from requirements
 pip install -r requirements.txt
 ```
+
+## Recent Updates
+
+- **2025-10-24**: Fixed critical F1 score calculation bug in evidence binding agent
+- **2025-10-24**: Code cleanup - removed unused imports from training modules
 
 ## Dependencies
 

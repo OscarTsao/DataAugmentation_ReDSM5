@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2025-10-24
+
+### Fixed
+- **Critical**: Fixed F1 score calculation in `train_evidence.py:342`
+  - Bug: `end_f1` was comparing `val_end_labels` to itself instead of to `val_end_preds`
+  - Impact: Validation metrics for evidence binding agent were incorrect
+  - Calculation now correctly compares labels against predictions
+
+### Changed
+- **Code Quality**: Removed unused imports from 9 training modules
+  - `src/training/train_evidence.py`: Removed `os`, `List` from typing
+  - `src/training/train_evidence_optuna.py`: Removed `tempfile`, `Any` from typing
+  - `src/training/train_joint.py`: Removed `os`, `List`, `Tuple` from typing
+  - `src/training/train_joint_optuna.py`: Removed unused imports
+  - Additional cleanup in 5 other training files
+  - Improved code maintainability and reduced import overhead
+
+### Removed
+- Deleted build artifact files: `=0.1`, `=1.0`, `=1.5`, `=3.3`, `=7.4`
+- Removed obsolete `FILE_MANIFEST.txt` (replaced by PROJECT_STRUCTURE.md)
+
+### Project Maintenance
+- Improved codebase cleanliness and maintainability
+- No functional changes to training pipelines (except F1 fix)
+- All verification tests passing (21/23 tests, 2 expected skips)
+
 ## [Unreleased] - 2025-10-04
 
 ### Added
@@ -164,5 +190,5 @@ None at this time.
 
 ## Version History
 
-### [Unreleased] - 2025-10-04
-Initial optimized release with comprehensive documentation and performance improvements.
+- **2025-10-24**: Critical F1 score bug fix and code cleanup
+- **2025-10-04**: Initial optimized release with comprehensive documentation and performance improvements

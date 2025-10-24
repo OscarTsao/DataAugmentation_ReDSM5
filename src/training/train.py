@@ -1,8 +1,6 @@
 """Standard training entrypoint without Optuna."""
 from __future__ import annotations
 
-from pathlib import Path
-
 import hydra
 from omegaconf import DictConfig
 

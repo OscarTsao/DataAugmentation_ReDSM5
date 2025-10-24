@@ -3,19 +3,16 @@
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
 
 import hydra
 import torch
 from omegaconf import DictConfig
-from torch.utils.data import DataLoader
 
 from src.agents.base import setup_hardware_optimizations
 from src.agents.criteria_matching import CriteriaMatchingAgent, CriteriaMatchingConfig
 from src.training.data_module import DataModule, DataModuleConfig
 from src.training.dataset_builder import build_splits
-from src.training.engine import train_model
 from src.utils import mlflow_utils
 
 logger = logging.getLogger(__name__)

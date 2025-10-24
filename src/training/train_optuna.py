@@ -9,7 +9,7 @@ import optuna
 from omegaconf import DictConfig, OmegaConf
 
 from src.utils import mlflow_utils
-from .engine import METRIC_KEYS, train_model
+from .engine import train_model
 
 DATASET_OPTIONS = {
     "original": "conf/dataset/original.yaml",
